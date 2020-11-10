@@ -1,18 +1,16 @@
 #ifndef _WATCHDOG_H_
 #define _WATCHDOG_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include <Arduino.h>
+#include <avr/io.h>
 #include <avr/wdt.h>
+#include <avr/interrupt.h>
 
-void watchdogSetup();
-extern uint8_t wdtCounter;
+typedef void (*func_t)(void);
 
-#ifdef __cplusplus
-}
-#endif //end __cplusplus
+void wdtEnable(uint16_t timeMs);
+void wdtAttach(func_t cb);
+void wdtStart();
+
 
 #endif //End _WATCHDOG_H_
