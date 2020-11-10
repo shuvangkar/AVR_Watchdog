@@ -4,15 +4,17 @@ void criticalTask();
 void setup()
 {
   Serial.begin(9600);
-  wdtEnable(2000);
+  wdtEnable(3000);
   wdtAttach(criticalTask);
+  wdtStart();
   Serial.println(F("<-------Setup done------->"));
 }
 
 void loop()
 {
-  delay(3000);
-  wdt_reset();
+  delay(1000);
+  wdtReset();
+//  wdt_reset();
 }
 
 void criticalTask()
