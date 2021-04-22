@@ -1,16 +1,23 @@
 #include "watchdog.h"
 uint16_t nextPowerOf2(uint16_t n);
 
-func_t _cb;
+static volatile func_t _cb;
 
 ISR(WDT_vect)
 {
-//  Serial.println(F("<WDT ISR>"));
+  
   if (_cb)
   {
+    // Serial.println(F("<Assigned>"));
     _cb();
   }
-  
+  else
+  {
+    Serial.println(F("<Task Not Assigned>"));
+  }
+
+  Serial.println(F("<wdt ISR>"));
+  // delay(100);
   MCUSR = 0;  //reset MCU status register
   WDTCSR |= (1 << WDCE) | (1 << WDE); // Enter config mode.
   WDTCSR  = (1 << WDE) | 0b000000; //Reset Enable
